@@ -1,0 +1,25 @@
+{
+  "items": [
+    {
+      "id": "1",
+      "item": "Laptop",
+      "price": 130,
+      "status": "New",
+      "amountBuyers": 100
+    },
+    {
+      "id": "2",
+      "item": "keyboard",
+      "price": 130,
+      "status": "New",
+      "amountBuyers": 100
+    },
+    {
+      "id": "3",
+      "item": "mouse",
+      "price": 20,
+      "status": "New",
+      "amountBuyers": 120
+    }
+  ]
+}

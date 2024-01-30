@@ -1,0 +1,12 @@
+
+.row-button{
+  display: flex;
+  justify-content: space-around;
+ 
+}
+
+.button-add{
+    display: flex;
+    justify-content: flex-end
+   
+  }
