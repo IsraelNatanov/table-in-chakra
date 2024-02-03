@@ -5,3 +5,11 @@ export type TableData={
     status:string,
     amountBuyers:number|null,
 }
+
+export type tableSubject={
+    id: string,
+    item:string
+    price:string
+    status:string
+    amountBuyers:string
+}

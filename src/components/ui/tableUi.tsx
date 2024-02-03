@@ -1,14 +1,21 @@
 import { useState } from 'react';
-import { Table, Tbody, Tr, Td, TableContainer, Thead, Th, Checkbox, Button } from '@chakra-ui/react';
+import { Table, Tbody, Tr, Td, TableContainer, Thead, Th, Checkbox, Button, Select, Flex, Tooltip, IconButton } from '@chakra-ui/react';
 import { TableData } from '../../types/table';
-
+import {
+  ChevronRightIcon,
+  ChevronLeftIcon
+} from "@chakra-ui/icons";
 interface TableProps {
+  tableSubjectData:string[]
   tableData: TableData[];
   selectedRows:number[]
   setSelectedRows:React.Dispatch<React.SetStateAction<number[]>>;
+  page:number
+  setPage: React.Dispatch<React.SetStateAction<number>>;
+  setPerPage:React.Dispatch<React.SetStateAction<number>>;
 }
 
-const TableUi = ({ tableData , selectedRows, setSelectedRows}: TableProps) => {
+const TableUi = ({tableSubjectData, tableData , selectedRows, setSelectedRows,page, setPage, setPerPage}: TableProps) => {
   const [selectAll, setSelectAll] = useState(false);
 
   const toggleSelectAll = () => {
@@ -36,7 +43,7 @@ const TableUi = ({ tableData , selectedRows, setSelectedRows}: TableProps) => {
 
   return (
     <TableContainer borderTopEndRadius={15} borderBottomEndRadius={15} >
-      <Table variant="striped" >
+      <Table variant="striped"  >
         <Thead >
           <Tr bg={'#3182ce'} >
             <Th>
@@ -65,7 +72,36 @@ const TableUi = ({ tableData , selectedRows, setSelectedRows}: TableProps) => {
             </Tr>
           ))}
         </Tbody>
+
       </Table>
+      <Flex justifyContent={'flex-end'}>
+      <Tooltip label="First Page">
+            <IconButton
+  onClick={()=>page!=1? setPage(page=> page-=1):setPage(page)}
+  icon={<ChevronLeftIcon h={6} w={6} />}
+           aria-label={''}            />
+          </Tooltip>
+        <Select
+          width={'auto'}
+       
+            onChange={(e)=> setPerPage(Number(e.target.value))}
+          >
+            {[5, 10, 15, 20].map((pageSize) => (
+              <option key={pageSize} value={pageSize}>
+               {pageSize}
+              </option>
+            ))}
+          </Select>
+      
+
+      
+        <Tooltip label="Next Page">
+            <IconButton  
+              onClick={()=>setPage(page=> page+=1)}
+              // isDisabled={!canNextPage}
+              icon={<ChevronRightIcon h={6} w={6} />} aria-label={''}            />
+          </Tooltip>
+          </Flex>
       
     </TableContainer>
   );
