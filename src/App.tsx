@@ -1,14 +1,14 @@
-import React, { useState } from 'react'
 import './App.css'
+import { QueryClientProvider, QueryClient } from 'react-query'
 import TablePage from './components/page/tablePage'
 
 function App() {
  
-
+  const queryClient = new QueryClient()
   return (
-    <React.Fragment>
+    <QueryClientProvider client={queryClient}>
       <TablePage/>
-    </React.Fragment>
+      </QueryClientProvider>
   )
 }
 

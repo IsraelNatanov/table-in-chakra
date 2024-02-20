@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Table, Tbody, Tr, Td, TableContainer, Thead, Th, Checkbox, Button, Select, Flex, Tooltip, IconButton } from '@chakra-ui/react';
+import { Table, Tbody, Tr, Td, TableContainer, Thead, Th, Checkbox, Select, Flex, Tooltip, IconButton } from '@chakra-ui/react';
 import { TableData } from '../../types/table';
 import {
   ChevronRightIcon,
@@ -22,7 +22,7 @@ const TableUi = ({ tableSubjectData, tableData, selectedRows, setSelectedRows, p
     if (selectAll) {
       setSelectedRows([]);
     } else {
-      const allIds = tableData.map((item) => item.id);
+      const allIds = tableData.map((item) => item.id!);
       setSelectedRows(allIds);
     }
     setSelectAll(!selectAll);
@@ -35,7 +35,7 @@ const TableUi = ({ tableSubjectData, tableData, selectedRows, setSelectedRows, p
 
     setSelectedRows(updatedSelectedRows);
 
-    const allRowsSelected = tableData.every((item) => updatedSelectedRows.includes(item.id));
+    const allRowsSelected = tableData.every((item) => updatedSelectedRows.includes(item.id!));
     setSelectAll(allRowsSelected);
   };
 
@@ -60,7 +60,7 @@ const TableUi = ({ tableSubjectData, tableData, selectedRows, setSelectedRows, p
           {tableData?.map((item) => (
             <Tr key={item.id}>
               <Td>
-                <Checkbox isChecked={selectedRows.includes(item.id)} onChange={() => toggleSelectRow(item.id)} />
+                <Checkbox isChecked={selectedRows.includes(item.id!)} onChange={() => toggleSelectRow(item.id!)} />
               </Td>
               <Td>{item.id}</Td>
               <Td>{item.item}</Td>

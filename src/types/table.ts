@@ -1,5 +1,5 @@
 export type TableData={
-    id: number,
+    id?: number,
     item:string,
     price:number| null,
     status:string,
@@ -7,7 +7,7 @@ export type TableData={
 }
 
 export type tableSubject={
-    id: string,
+    id: number,
     item:string
     price:string
     status:string
