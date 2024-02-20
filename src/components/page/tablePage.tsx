@@ -11,11 +11,11 @@ export default function TablePage() {
   const [page, setPage] = useState<number>(1)
   const [perPage, setPerPage] = useState<number>(5)
   const [tableData, setTableData] = useState<TableData[]>([])
-  const [selectedRows, setSelectedRows] = useState<number[]>([]);
+  const [selectedRows, setSelectedRows] = useState<string[]>([]);
   const [loadin, setLoadin] = useState<boolean>(true)
   const [error, setError] = useState<boolean>(false)
   const [addItem, setAddItem] = useState<TableData>({
-    id :Date.now(),
+    id :Date.now().toString(),
     item: "",
     price: null,
     status: "",
@@ -64,7 +64,7 @@ export default function TablePage() {
     
     postApi()
     setAddItem({
-      id:Date.now(),
+      id:Date.now().toString(),
       item: "",
       price: null,
       status: "",
@@ -79,10 +79,10 @@ export default function TablePage() {
 
   }
 
-  const handleDeleteRow = async (id: number) => {
+  const handleDeleteRow = async (id: string) => {
 
-    setTableData(tableData.filter(item=> item.id !== id))
-console.log(id);
+    setTableData(prevTableData => prevTableData.filter(item => item.id !== id));
+  
 
     await axios(`http://localhost:3500/items/${id}`,{
       method: 'DELETE'
@@ -95,7 +95,7 @@ console.log(id);
       } 
       console.log(`Row with ID ${id} deleted successfully.`);
     } ).catch (error=> {
-      setTableData([...tableData])
+      setTableData(prevTableData => [...prevTableData]);
       console.error('Error deleting row:', error);
     })
   };

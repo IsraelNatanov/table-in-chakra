@@ -8,8 +8,8 @@ import {
 interface TableProps {
   tableSubjectData: string[]
   tableData: TableData[];
-  selectedRows: number[]
-  setSelectedRows: React.Dispatch<React.SetStateAction<number[]>>;
+  selectedRows: string[]
+  setSelectedRows: React.Dispatch<React.SetStateAction<string[]>>;
   page: number
   setPage: React.Dispatch<React.SetStateAction<number>>;
   setPerPage: React.Dispatch<React.SetStateAction<number>>;
@@ -28,7 +28,7 @@ const TableUi = ({ tableSubjectData, tableData, selectedRows, setSelectedRows, p
     setSelectAll(!selectAll);
   };
 
-  const toggleSelectRow = (id: number) => {
+  const toggleSelectRow = (id: string) => {
     const updatedSelectedRows = selectedRows.includes(id)
       ? selectedRows.filter((rowId) => rowId !== id)
       : [...selectedRows, id];

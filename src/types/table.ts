@@ -1,5 +1,5 @@
 export type TableData={
-    id?: number,
+    id?: string,
     item:string,
     price:number| null,
     status:string,
