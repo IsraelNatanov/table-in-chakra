@@ -13,9 +13,10 @@ interface TableProps {
   page: number
   setPage: React.Dispatch<React.SetStateAction<number>>;
   setPerPage: React.Dispatch<React.SetStateAction<number>>;
+  perPage:number
 }
 
-const TableUi = ({ tableSubjectData, tableData, selectedRows, setSelectedRows, page, setPage, setPerPage }: TableProps) => {
+const TableUi = ({ tableSubjectData, tableData, selectedRows, setSelectedRows, page, setPage, setPerPage, perPage }: TableProps) => {
   const [selectAll, setSelectAll] = useState(false);
 
   const toggleSelectAll = () => {
@@ -76,13 +77,13 @@ const TableUi = ({ tableSubjectData, tableData, selectedRows, setSelectedRows, p
       <Flex justifyContent={'flex-end'}>
         <Tooltip label="First Page">
           <IconButton
-            onClick={() => page != 1 ? setPage(page => page -= 1) : setPage(page)}
+            onClick={() => page != 1 ? setPage(page => page - 1) : setPage(page)}
             icon={<ChevronLeftIcon h={6} w={6} />}
             aria-label={''} />
         </Tooltip>
         <Select
           width={'auto'}
-
+value={perPage}
           onChange={(e) => setPerPage(Number(e.target.value))}
         >
           {[5, 10, 15, 20].map((pageSize) => (
@@ -96,7 +97,11 @@ const TableUi = ({ tableSubjectData, tableData, selectedRows, setSelectedRows, p
 
         <Tooltip label="Next Page">
           <IconButton
-            onClick={() => setPage(page => page += 1)}
+            onClick={() => {
+              setPage(page => page + 1)
+          
+            }
+            }
             // isDisabled={!canNextPage}
             icon={<ChevronRightIcon h={6} w={6} />} aria-label={''} />
         </Tooltip>
