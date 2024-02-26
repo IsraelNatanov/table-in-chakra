@@ -9,23 +9,13 @@ const ToastStatus=({statuses}:UseToastOptions) =>{
   const toast = useToast()
 
   return (
-    <Wrap>
-  
- 
-          <Button
-            onClick={() =>
+   
               toast({
                 title: `${statuses} toast`,
-                status: 'error',
+                status: statuses,
                 isClosable: true,
               })
-            }
-          >
-            Show {status} toast
-          </Button>
-  
-     
-    </Wrap>
+            
   )
 }
 export default ToastStatus
