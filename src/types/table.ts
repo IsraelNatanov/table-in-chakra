@@ -1,15 +1,18 @@
 export type TableData={
     id?: string,
-    item:string,
+    nameItem:string,
     price:number| null,
     status:string,
     amountBuyers:number|null,
 }
 
-export type tableSubject={
-    id: number,
-    item:string
-    price:string
-    status:string
-    amountBuyers:string
+
+export type DataFromApi={
+    data:TableData[],
+    first: number ,
+    items: number ,
+    last: number ,
+    next: number ,
+    pages: number ,
+    
 }

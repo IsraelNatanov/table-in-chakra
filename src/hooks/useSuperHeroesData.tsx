@@ -1,15 +1,18 @@
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { request } from '../utils/axios-utils';
-import { TableData } from '../types/table';
+import { DataFromApi, TableData } from '../types/table';
+import { useToast } from '@chakra-ui/react';
 
-const fetchTableData = (_page: number, _per_page: number): Promise<TableData[]> => {
-  return request({ url: '/items', params: { _page, _per_page } }).then(response => response.data.data);
+
+const fetchTableData = (_page: number, _per_page: number): Promise<DataFromApi> => {
+  return request({ url: '/items', params: { _page, _per_page } }).then(response => response.data);
 };
 
-export const useGetTableData = (onSuccess?: (data: TableData[]) => void, onError?: (error: unknown) => void, page: number = 1, perPage: number = 5) => {
-  return useQuery<TableData[]>(['data-table', page, perPage], () => fetchTableData(page, perPage), { 
+export const useGetTableData = (onSuccess?: (data: DataFromApi) => void, onError?: (error: unknown) => void, page: number = 1, perPage: number = 5) => {
+  return useQuery<DataFromApi>(['data-table', page, perPage], () => fetchTableData(page, perPage), { 
     onSuccess,
     onError,
+    keepPreviousData: true,
   });
 };
 
@@ -17,9 +20,9 @@ const addItemIntoTableData = (item: TableData): Promise<TableData> => {
   return request({ url: '/items', method: 'post', data: item }).then(response => response.data);
 };
 
-export const useAddItemIntoTableData = () => {
+export const useAddItemIntoTableData = (toast: ReturnType<typeof useToast>) => {
   const queryClient = useQueryClient();
-
+  
   return useMutation(addItemIntoTableData, {
 
 
@@ -48,20 +51,39 @@ export const useAddItemIntoTableData = () => {
       });
       return { previousDataTable }
     },
+
     onError: (_err, _newTodo, context) => {
       if (context?.previousDataTable) {
         queryClient.setQueryData('data-table', context.previousDataTable);
       }
+     
     },
-    onSettled: () => {
+    onSettled: (_, error, __) => {
+      if (!error) {
+        toast({
+          title: "Operation successful",
+          status: "success",
+          duration: 3000, 
+          isClosable: true,
+        });
+      } else {
+        toast({
+          title: "Operation failed",
+          status: "error",
+          duration: 3000, 
+          isClosable: true,
+        });
+      }
       queryClient.invalidateQueries('data-table');
     }
     /**Optimistic Update End */
 
   });
+ 
 
   
 };
+
 
 
 
@@ -72,7 +94,7 @@ const deleteItemFromTableData = async (idItem: string): Promise<TableData> => {
    //for Pessimistic UI return idItem
 };
 
-export const useDeleteItemFromTableData = () => {
+export const useDeleteItemFromTableData = (toast: ReturnType<typeof useToast>) => {
   const queryClient = useQueryClient();
 
   return useMutation(deleteItemFromTableData, {
@@ -106,7 +128,22 @@ export const useDeleteItemFromTableData = () => {
         queryClient.setQueryData('data-table', context.previousDataTable);
       }
     },
-    onSettled: () => {
+    onSettled: (_, error, __) => {
+      if (!error) {
+        toast({
+          title: "Operation successful",
+          status: "success",
+          duration: 3000, 
+          isClosable: true,
+        });
+      } else {
+        toast({
+          title: "Operation failed",
+          status: "error",
+          duration: 3000, 
+          isClosable: true,
+        });
+      }
       queryClient.invalidateQueries('data-table');
     }
     /**Optimistic Update End */
